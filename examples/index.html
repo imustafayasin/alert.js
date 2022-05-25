@@ -20,8 +20,9 @@
 
     <button triggerAlert>Show alert</button>
     <script type="module">
-        import Swal from '../src/alert.js'
-        document.querySelector('[triggerAlert]').addEventListener('click', () => { Swal.fire('yasin') })
+        import Alert from '../src/alert.js';
+
+        document.querySelector('[triggerAlert]').addEventListener('click', () => { Alert.fire('Yasin') })
 
 
     </script>
