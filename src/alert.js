@@ -10,7 +10,7 @@ class Alert {
 
     static setup() {
         const alert_wrapper = this.elementCreator({ type: 'div', _class: 'alert-wrapper', parentElement: document.body })
-        const alert_bg = this.elementCreator({ type: 'div', _class: 'alert-bg close-alert', parentElement: alert_wrapper })
+        this.elementCreator({ type: 'div', _class: 'alert-bg close-alert', parentElement: alert_wrapper })
         const alert_content = this.elementCreator({ type: 'div', _class: 'alert-content', parentElement: alert_wrapper, styleProperty: ['--align', this._textAlign] })
 
         this.elementCreator({ type: 'div', _class: `icon ${this._type}`, html: this.renderIcon(), parentElement: alert_content })
