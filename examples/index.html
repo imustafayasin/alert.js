@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/src/alert.css">
     <style>
         @import url("../src/alert.css");
 
@@ -21,8 +22,11 @@
     <button triggerAlert>Show alert</button>
     <script type="module">
         import Alert from '../src/alert.js';
-
-        document.querySelector('[triggerAlert]').addEventListener('click', () => { Alert.fire('Hop dedik biladers') })
+        Alert.fire('Şifreniz çok kısa',
+            'Lütfen şifrenizi en az 8 karakter olacak şekilde giriniz.')
+        document.querySelector('[triggerAlert]')
+            .addEventListener('click', () => Alert.fire('Şifreniz çok kısa',
+                'Lütfen şifrenizi en az 8 karakter olacak şekilde giriniz.'))
 
 
     </script>
