@@ -22,11 +22,14 @@
     <button triggerAlert>Show alert</button>
     <script type="module">
         import Alert from '../src/alert.js';
-        Alert.fire('Şifreniz çok kısa',
-            'Lütfen şifrenizi en az 8 karakter olacak şekilde giriniz.')
+        Alert.fire({
+            type: "error",
+            title: 'Şifreniz çok kısa',
+            showCancelButton: true,
+            description: 'Lütfen şifrenizi en az 8 karakter olacak şekilde giriniz.'
+        })
         document.querySelector('[triggerAlert]')
-            .addEventListener('click', () => Alert.fire('Şifreniz çok kısa',
-                'Lütfen şifrenizi en az 8 karakter olacak şekilde giriniz.'))
+            .addEventListener('click', () => Alert.fire("success", 'Şifreniz çok kısa', 'Lütfen şifrenizi en az 8 karakter olacak şekilde giriniz.'))
 
 
     </script>
