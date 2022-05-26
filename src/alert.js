@@ -1,35 +1,14 @@
 class Alert {
-
-    _title
-    _description
-    _type
-    _textAlign
-    _setTimeout
-    _showCancelButton
-    _showAcceptButton
-    _cancelButtonText
-    _acceptButtonText
-    _htmlContent
-    static fire({ type, title, htmlContent, description, setTimeout = false, showAcceptButton = true, textAlign = "left", showCancelButton = false, cancelButtonText = 'Cancel', acceptButtonText = 'Okey' }) {
+    static fire(obj) {
+        this._showAcceptButton = true,
+        this._cancelButtonText = 'Cancel',
+        this._acceptButtonText = 'Okey',
+        Object.entries(obj).forEach(([key, value]) => this[key.padStart(key.length + 1, '_')] = value)
         if (!!document.querySelector(".alert-wrapper")) return
-        return new Promise((resolve, reject) => {
-            this._title = title;
-            this._description = description;
-            this._type = type;
-            this._textAlign = textAlign;
-            this._htmlContent = htmlContent;
-            this._setTimeout = setTimeout;
-            this._showAcceptButton = showAcceptButton;
-            this._showCancelButton = showCancelButton;
-            this._cancelButtonText = cancelButtonText;
-            this._acceptButtonText = acceptButtonText;
-            this.setup();
-            resolve()
-        })
+        this.setup()
     }
 
     static setup() {
-
         const alert_wrapper = this.elementCreator({ type: 'div', _class: 'alert-wrapper', parentElement: document.body })
         const alert_bg = this.elementCreator({ type: 'div', _class: 'alert-bg close-alert', parentElement: alert_wrapper })
         const alert_content = this.elementCreator({ type: 'div', _class: 'alert-content', parentElement: alert_wrapper, styleProperty: ['--align', this._textAlign] })
@@ -44,11 +23,11 @@ class Alert {
         this._showCancelButton && this.elementCreator({ type: 'button', _class: 'cancel-button close-alert', text: this._cancelButtonText, parentElement: alert_actions })
         this._showAcceptButton && this.elementCreator({ type: 'button', _class: 'accept-button close-alert', text: this._acceptButtonText, parentElement: alert_actions })
 
-        console.log(this._setTimeout)
 
         this.show(alert_wrapper)
         this._setTimeout && setTimeout(() => this.hide(alert_wrapper), this._setTimeout)
         this.customEventListener('.close-alert', 'click', () => this.hide(alert_wrapper))
+        this.customEventListener('.accept-button', 'click', () => Promise.resolve(1))
     }
 
     static customEventListener(selector, listener, callback) {
