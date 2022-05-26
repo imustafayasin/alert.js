@@ -3,14 +3,26 @@ class Alert {
     _title
     _description
     _type
+    _textAlign
+    _setTimeout
     _showCancelButton
-    static fire({ type, title, description, showCancelButton = false }) {
+    _showAcceptButton
+    _cancelButtonText
+    _acceptButtonText
+    _htmlContent
+    static fire({ type, title, htmlContent, description, setTimeout = false, showAcceptButton = true, textAlign = "left", showCancelButton = false, cancelButtonText = 'Cancel', acceptButtonText = 'Okey' }) {
         if (!!document.querySelector(".alert-wrapper")) return
         return new Promise((resolve, reject) => {
             this._title = title;
             this._description = description;
             this._type = type;
+            this._textAlign = textAlign;
+            this._htmlContent = htmlContent;
+            this._setTimeout = setTimeout;
+            this._showAcceptButton = showAcceptButton;
             this._showCancelButton = showCancelButton;
+            this._cancelButtonText = cancelButtonText;
+            this._acceptButtonText = acceptButtonText;
             this.setup();
             resolve()
         })
@@ -20,19 +32,22 @@ class Alert {
 
         const alert_wrapper = this.elementCreator({ type: 'div', _class: 'alert-wrapper', parentElement: document.body })
         const alert_bg = this.elementCreator({ type: 'div', _class: 'alert-bg close-alert', parentElement: alert_wrapper })
-        const alert_content = this.elementCreator({ type: 'div', _class: 'alert-content', parentElement: alert_wrapper })
+        const alert_content = this.elementCreator({ type: 'div', _class: 'alert-content', parentElement: alert_wrapper, styleProperty: ['--align', this._textAlign] })
 
         this.elementCreator({ type: 'div', _class: `icon ${this._type}`, html: this.renderIcon(), parentElement: alert_content })
+        this._htmlContent && this.elementCreator({ type: 'div', html: this._htmlContent, parentElement: alert_content })
         this.elementCreator({ type: 'h2', text: this._title, parentElement: alert_content })
         this.elementCreator({ type: 'p', text: this._description, parentElement: alert_content })
         this.elementCreator({ type: 'button', _class: 'close-modal-button close-alert', html: '&times;', parentElement: alert_content })
 
         const alert_actions = this.elementCreator({ type: 'div', _class: 'alert-actions', parentElement: alert_content })
-        this._showCancelButton && this.elementCreator({ type: 'button', _class: 'cancel-button close-alert', text: 'Cancel', parentElement: alert_actions })
-        const accept_button = this.elementCreator({ type: 'button', _class: 'accept-button close-alert', text: 'Okey', parentElement: alert_actions })
+        this._showCancelButton && this.elementCreator({ type: 'button', _class: 'cancel-button close-alert', text: this._cancelButtonText, parentElement: alert_actions })
+        this._showAcceptButton && this.elementCreator({ type: 'button', _class: 'accept-button close-alert', text: this._acceptButtonText, parentElement: alert_actions })
 
+        console.log(this._setTimeout)
 
         this.show(alert_wrapper)
+        this._setTimeout && setTimeout(() => this.hide(alert_wrapper), this._setTimeout)
         this.customEventListener('.close-alert', 'click', () => this.hide(alert_wrapper))
     }
 
@@ -40,12 +55,13 @@ class Alert {
         document.querySelectorAll(selector).forEach(item => item.addEventListener(listener, () => { callback() }))
     }
 
-    static elementCreator({ type, _class, text, html, id, parentElement }) {
+    static elementCreator({ type, _class, text, html, id, parentElement, styleProperty }) {
         let element = document.createElement(type)
         element.className = _class ?? element.className
         element.innerText = text ?? element.innerText
         element.innerHTML = html ?? element.innerHTML
-        element.id = id ?? element.id
+        element.id = id ?? element.id;
+        styleProperty && element.style.setProperty(...styleProperty)
         parentElement?.appendChild(element)
         return element
     }

@@ -23,13 +23,18 @@
     <script type="module">
         import Alert from '../src/alert.js';
         Alert.fire({
-            type: "error",
-            title: 'Şifreniz çok kısa',
-            showCancelButton: true,
-            description: 'Lütfen şifrenizi en az 8 karakter olacak şekilde giriniz.'
+            type: "success",
+            title: 'Blog post published',
+            textAlign: 'left',
+            description: 'This blog post has been published. Team members will be able to edit this post and republish changes.'
         })
         document.querySelector('[triggerAlert]')
-            .addEventListener('click', () => Alert.fire("success", 'Şifreniz çok kısa', 'Lütfen şifrenizi en az 8 karakter olacak şekilde giriniz.'))
+            .addEventListener('click', () => Alert.fire({
+                type: "success",
+                title: 'Blog post published',
+                textAlign: 'center',
+                description: 'This blog post has been published. Team members will be able to edit this post and republish changes.'
+            }))
 
 
     </script>

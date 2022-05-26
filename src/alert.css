@@ -28,16 +28,23 @@
   border-radius: 12px;
   padding: 24px;
   position: absolute;
+  text-align: var(--align);
   top: 50%;
   max-width: 400px;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+@media screen and (max-width: 768px) {
+  .alert-wrapper .alert-content {
+    max-width: 80%;
+    width: 100%;
+  }
+}
 
 .alert-content .icon {
   width: 20px;
   height: 20px;
-
+  display: inline-block;
   background: var(--bg);
   border: 8px solid var(--bc);
   border-radius: 50px;
