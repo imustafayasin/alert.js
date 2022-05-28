@@ -31,6 +31,7 @@
   text-align: var(--align);
   top: 50%;
   max-width: 400px;
+  width: 100%;
   left: 50%;
   transform: translate(-50%, -50%);
 }

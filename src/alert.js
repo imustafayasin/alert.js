@@ -1,10 +1,15 @@
+"use strict"
 class Alert {
     static fire(obj) {
+
         this._showAcceptButton = true,
-        this._cancelButtonText = 'Cancel',
-        this._acceptButtonText = 'Okey',
-        Object.entries(obj).forEach(([key, value]) => this[key.padStart(key.length + 1, '_')] = value)
-        if (!!document.querySelector(".alert-wrapper")) return
+            this._showCancelButton = false,
+            this._cancelButtonText = 'Cancel',
+            this._acceptButtonText = 'Okey',
+            this._onConfirm = false,
+            this._description = null,
+
+            Object.entries(obj).forEach(([key, value]) => this[key.padStart(key.length + 1, '_')] = value)
         this.setup()
     }
 
@@ -21,17 +26,18 @@ class Alert {
 
         const alert_actions = this.elementCreator({ type: 'div', _class: 'alert-actions', parentElement: alert_content })
         this._showCancelButton && this.elementCreator({ type: 'button', _class: 'cancel-button close-alert', text: this._cancelButtonText, parentElement: alert_actions })
-        this._showAcceptButton && this.elementCreator({ type: 'button', _class: 'accept-button close-alert', text: this._acceptButtonText, parentElement: alert_actions })
+        this._showAcceptButton && this.elementCreator({ type: 'button', _class: `accept-button close-alert`, text: this._acceptButtonText, parentElement: alert_actions })
 
 
         this.show(alert_wrapper)
         this._setTimeout && setTimeout(() => this.hide(alert_wrapper), this._setTimeout)
         this.customEventListener('.close-alert', 'click', () => this.hide(alert_wrapper))
-        this.customEventListener('.accept-button', 'click', () => Promise.resolve(1))
+        this.customEventListener('.accept-button', 'click', this._onConfirm)
     }
 
     static customEventListener(selector, listener, callback) {
-        document.querySelectorAll(selector).forEach(item => item.addEventListener(listener, () => { callback() }))
+        if (!callback) return
+        document.querySelectorAll(selector).forEach(item => item.addEventListener(listener, () => { callback?.() }))
     }
 
     static elementCreator({ type, _class, text, html, id, parentElement, styleProperty }) {
