@@ -22,7 +22,8 @@
 .alert-wrapper .alert-content {
   background-color: #fff;
   border-radius: 8px;
-  background: #ffffff;
+  --bg: #fff;
+  background: var(--bg);
   box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.08),
     0px 8px 8px -4px rgba(16, 24, 40, 0.03);
   border-radius: 12px;
@@ -34,6 +35,12 @@
   width: 100%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.alert-wrapper.dark .alert-content {
+  --bg: #1a1a1a;
+}
+.alert-wrapper.dark .alert-content h2 {
+  color: #fff;
 }
 @media screen and (max-width: 768px) {
   .alert-wrapper .alert-content {
